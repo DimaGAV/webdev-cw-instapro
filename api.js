@@ -5,11 +5,17 @@ const personalKey = "aleksandr-gavrikov";
 const baseHost = "https://wedev-api.sky.pro";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 
+export let token
+
+export const setToken = (newToken) => {
+  token = newToken
+}
+
 export function getPosts({ token }) {
   return fetch(postsHost, {
     method: "GET",
     headers: {
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
   })
     .then((response) => {
