@@ -75,3 +75,18 @@ export function uploadImage({ file }) {
     return response.json();
   });
 }
+
+export function addPosts({description, imageUrl}) {
+return fetch(postsHost, {
+method: "POST",
+body: JSON.stringify({
+  description,
+  imageUrl,
+}),
+}).then((response) => {
+  if (response.status === 400) {
+    throw new Error("Ошибка при добавлении поста");
+  }
+  return response.json();
+});
+}

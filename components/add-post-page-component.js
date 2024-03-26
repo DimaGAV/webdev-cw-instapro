@@ -32,27 +32,16 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick, user, goToPa
       goToPage,
     });
    
+    
     const element = document.querySelector(".upload-image-container")
-    renderUploadImageComponent( {element} );
+    renderUploadImageComponent( {element} )
+
 
         document.getElementById("add-button").addEventListener("click", () => {
-      onAddPostClick({
-        description: "Описание картинки",
-        imageUrl: "https://image.png",
-      });
+      onAddPostClick();
     });
   };
 
   
-
   render();
 }
-/* <div class="upload=image">
-      
-<label class="file-upload-label secondary-button">
-<input type="file" class="file-upload-input" style="display:none">
-Выберите фото
-</label>
-
-
-</div> */
