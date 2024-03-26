@@ -13,7 +13,6 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick, user, goToPa
           <div class="upload-image-container">
   
 </div>
-
           <label>
             Опишите фотографию:
             <textarea class="input textarea" rows="4"></textarea>
@@ -32,12 +31,11 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick, user, goToPa
       element: document.querySelector(".header-container"),
       goToPage,
     });
-    
+   
+    const element = document.querySelector(".upload-image-container")
+    renderUploadImageComponent( {element} );
 
-    renderUploadImageComponent();
-
-
-    document.getElementById("add-button").addEventListener("click", () => {
+        document.getElementById("add-button").addEventListener("click", () => {
       onAddPostClick({
         description: "Описание картинки",
         imageUrl: "https://image.png",
