@@ -5,15 +5,12 @@ import { posts, goToPage } from "../index.js";
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
   console.log("Актуальный список постов:", posts);
-
+  
   /**
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
-  // const index = parseInt(post.dataset.index);
-  // const userId = user.id;
-  // const appEl = document.getElementById("app");
-  const postsHtml = posts
+    const postsHtml = posts
     .map((post, index) => {
       return `
     <li data-index="${index}" class="post">
@@ -51,6 +48,7 @@ export function renderPostsPageComponent({ appEl }) {
               </div>`;
 
   appEl.innerHTML = appHtml;
+
 
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
