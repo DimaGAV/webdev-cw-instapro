@@ -76,12 +76,15 @@ export function uploadImage({ file }) {
   });
 }
 
-export function addPosts({description, imageUrl}) {
+export function onAddPostClick({description, imageUrl}) {
 return fetch(postsHost, {
 method: "POST",
+headers: {
+  Authorization: `Bearer ${token}`,
+},
 body: JSON.stringify({
-  description,
-  imageUrl,
+  description: description,
+  imageUrl: imageUrl,
 }),
 }).then((response) => {
   if (response.status === 400) {
