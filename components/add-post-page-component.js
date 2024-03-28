@@ -1,7 +1,11 @@
+//add-post-page-component.js
 import { renderHeaderComponent } from "./header-component.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
 
-export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
+export function renderAddPostPageComponent({
+  appEl,
+  onAddPostClick,
+  }) {
   let imageUrl = "";
   const render = () => {
     // TODO: Реализовать страницу добавления поста

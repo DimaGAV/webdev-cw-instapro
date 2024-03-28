@@ -75,7 +75,7 @@ export function uploadImage({ file }) {
     return response.json();
   });
 }
-
+// api.js
 export function onAddPostClick({ description, imageUrl }) {
   return fetch(postsHost, {
     method: "POST",
