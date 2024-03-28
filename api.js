@@ -5,11 +5,11 @@ const personalKey = "aleksandr-gavrikov";
 const baseHost = "https://wedev-api.sky.pro";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 
-export let token
+export let token;
 
 export const setToken = (newToken) => {
-  token = newToken
-}
+  token = newToken;
+};
 
 export function getPosts({ token }) {
   return fetch(postsHost, {
@@ -76,20 +76,20 @@ export function uploadImage({ file }) {
   });
 }
 
-export function onAddPostClick({description, imageUrl}) {
-return fetch(postsHost, {
-method: "POST",
-headers: {
-  Authorization: `Bearer ${token}`,
-},
-body: JSON.stringify({
-  description: description,
-  imageUrl: imageUrl,
-}),
-}).then((response) => {
-  if (response.status === 400) {
-    throw new Error("Ошибка при добавлении поста");
-  }
-  return response.json();
-});
+export function onAddPostClick({ description, imageUrl }) {
+  return fetch(postsHost, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      description: description,
+      imageUrl: imageUrl,
+    }),
+  }).then((response) => {
+    if (response.status === 400) {
+      throw new Error("Ошибка при добавлении поста");
+    }
+    return response.json();
+  });
 }

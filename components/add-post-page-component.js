@@ -1,7 +1,8 @@
 import { renderHeaderComponent } from "./header-component.js";
-import { renderUploadImageComponent } from "./upload-image-component.js"
+import { renderUploadImageComponent } from "./upload-image-component.js";
 
-export function renderAddPostPageComponent({ appEl, onAddPostClick}) {
+export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
+  let imageUrl = "";
   const render = () => {
     // TODO: Реализовать страницу добавления поста
     const appHtml = `
@@ -10,9 +11,7 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick}) {
       <div class="form">
         <h3 class="form-title">Добавить пост</h3>
         <div class="form-inputs">
-          <div class="upload-image-container">
-  
-</div>
+          <div class="upload-image-container"></div>
           <label>
             Опишите фотографию:
             <textarea class="input textarea" rows="4"></textarea>
@@ -24,7 +23,6 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick}) {
   `;
 
     appEl.innerHTML = appHtml;
-    
 
     renderHeaderComponent({
       element: document.querySelector(".header-container"),
@@ -44,11 +42,18 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick}) {
     document.getElementById("add-button").addEventListener("click", () => {
       onAddPostClick({
         description: appEl.querySelector(".input").value,
-        imageUrl: "https://image.png",
-      });
+        imageUrl,
+      })
+        .then((data) => {
+          console.log("Пост успешно добавлен:", data);
+          return data; // Возвращаем данные, которые могут быть полезны при необходимости
+        })
+        .catch((error) => {
+          console.error("Ошибка при добавлении поста:", error.message);
+          throw error; // Прокидываем ошибку дальше, чтобы её можно было обработать в вызывающем коде
+        });
     });
   };
 
-  
   render();
 }
