@@ -76,11 +76,11 @@ export function uploadImage({ file }) {
   });
 }
 // api.js
-export function onAddPostClick({ description, imageUrl }) {
+export function onAddPostClick({ token, description, imageUrl }) {
   return fetch(postsHost, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
     body: JSON.stringify({
       description: description,

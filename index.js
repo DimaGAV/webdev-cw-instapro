@@ -21,7 +21,7 @@ export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
 
-const getToken = () => {
+export const getToken = () => {
   const token = user ? `Bearer ${user.token}` : undefined;
   return token;
 };
@@ -111,15 +111,8 @@ const renderApp = () => {
     return renderAddPostPageComponent({
       appEl,
       onAddPostClick,
-      
-      // ({ description, imageUrl }) {
-        // TODO: реализовать добавление поста в API
-        // console.log("Добавляю пост...", { description, imageUrl });
-        // goToPage(POSTS_PAGE);
-      // },
     });
   }
-
 
   if (page === POSTS_PAGE) {
     return renderPostsPageComponent({

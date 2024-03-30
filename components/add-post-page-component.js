@@ -1,6 +1,8 @@
 //add-post-page-component.js
 import { renderHeaderComponent } from "./header-component.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
+import { getToken, goToPage } from "../index.js";
+import { POSTS_PAGE } from "../routes.js";
 
 export function renderAddPostPageComponent({
   appEl,
@@ -47,6 +49,7 @@ export function renderAddPostPageComponent({
       onAddPostClick({
         description: appEl.querySelector(".input").value,
         imageUrl,
+        token: getToken(),
       })
         .then((data) => {
           console.log("Пост успешно добавлен:", data);
@@ -56,7 +59,8 @@ export function renderAddPostPageComponent({
           console.error("Ошибка при добавлении поста:", error.message);
           throw error; // Прокидываем ошибку дальше, чтобы её можно было обработать в вызывающем коде
         });
-    });
+        goToPage(POSTS_PAGE);
+      });
   };
 
   render();
