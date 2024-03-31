@@ -4,10 +4,7 @@ import { renderUploadImageComponent } from "./upload-image-component.js";
 import { getToken, goToPage } from "../index.js";
 import { POSTS_PAGE } from "../routes.js";
 
-export function renderAddPostPageComponent({
-  appEl,
-  onAddPostClick,
-  }) {
+export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
   let imageUrl = "";
   const render = () => {
     // TODO: Реализовать страницу добавления поста
@@ -46,8 +43,20 @@ export function renderAddPostPageComponent({
     }
 
     document.getElementById("add-button").addEventListener("click", () => {
+      const description = appEl.querySelector(".input").value;
+
+      if (!description || description.trim().length === 0) {
+        alert("Введите описание картинки");
+        return;
+      }
+
+      if (!imageUrl) {
+        alert("Не выбрана фотография");
+        return;
+      }
+
       onAddPostClick({
-        description: appEl.querySelector(".input").value,
+        description: description,
         imageUrl,
         token: getToken(),
       })
@@ -59,8 +68,8 @@ export function renderAddPostPageComponent({
           console.error("Ошибка при добавлении поста:", error.message);
           throw error; // Прокидываем ошибку дальше, чтобы её можно было обработать в вызывающем коде
         });
-        goToPage(POSTS_PAGE);
-      });
+      goToPage(POSTS_PAGE);
+    });
   };
 
   render();
