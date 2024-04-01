@@ -4,6 +4,7 @@
 const personalKey = "aleksandr-gavrikov";
 const baseHost = "https://wedev-api.sky.pro";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
+const userPostsHost = `${postsHost}/user-posts/`
 
 export let token;
 
@@ -13,6 +14,25 @@ export const setToken = (newToken) => {
 
 export function getPosts({ token }) {
   return fetch(postsHost, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Нет авторизации");
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      return data.posts;
+    });
+}
+
+export function getUserPosts({ token, id }) {
+  return fetch(userPostsHost + id, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -75,7 +95,7 @@ export function uploadImage({ file }) {
     return response.json();
   });
 }
-// api.js
+
 export function onAddPostClick({ token, description, imageUrl }) {
   return fetch(postsHost, {
     method: "POST",
