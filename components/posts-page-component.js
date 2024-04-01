@@ -73,16 +73,18 @@ export function renderPostsPageComponent({ appEl }) {
 
   for (let likeButtonEl of document.querySelectorAll(".like-button")) {
     likeButtonEl.addEventListener("click", () => {
-      console.log(likeButtonEl.dataset.postId);
+      // console.log(likeButtonEl.dataset.postId);
+
       onAddLikeClick({
         token: getToken(),
         id: likeButtonEl.dataset.postId,
       })
-      console.log("Актуальный список постов:", posts);
-      // goToPage(POSTS_PAGE, {
-      //   postId: likeButtonEl.dataset.postId,
-      // });
-    });
-  }
+            .catch((error)=> {
+        alert (error.message)
+      })
+      // goToPage(POSTS_PAGE)
+      // console.log("Актуальный список постов:", posts);
+          }
+    )}
 
 }

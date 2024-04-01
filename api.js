@@ -113,7 +113,7 @@ export function onAddPostClick({ token, description, imageUrl }) {
     return response.json();
   });
 }
-
+// api.js
 export function onAddLikeClick({ token, id }) {
   return fetch(postsHost + "/" + id + "/like", {
     method: "POST",
@@ -124,7 +124,9 @@ export function onAddLikeClick({ token, id }) {
       
     // }),
   }).then((response) => {
-    
+    if (response.status === 401) {
+      throw new Error("Лайкать посты могут только авторизованные пользователи");
+    }
     return response.json();
   });
 }
