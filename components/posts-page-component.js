@@ -23,15 +23,18 @@ export function renderPostsPageComponent({ appEl }) {
                     </div>
                     <div class="post-likes">
                       <button data-post-id="${post.id}" class="like-button">
-                        <img src="./assets/images/like-not-active.svg">
+                      <img ${
+                        post.isLiked
+                      ?`
+                      src="./assets/images/like-active.svg"
+                      `
+                      :`
+                      src="./assets/images/like-not-active.svg">
+                      `}
                       </button>
                       <p class="post-likes-text">
-                        Нравится: <strong>${post.likes[0].name}</strong>
-                        и
-                        ${posts.likes.length < 0
-                        ? `<strong>"ещё" ${post.likes.length - 1}}</strong>`
-                        : ""
-                        }
+                        Нравится: <strong>${post.likes.name}</strong>
+                        
                       </p>
                     </div>
                     <p class="post-text">
@@ -66,4 +69,14 @@ export function renderPostsPageComponent({ appEl }) {
       });
     });
   }
+
+  for (let likeButtonEl of document.querySelectorAll(".like-button")) {
+    likeButtonEl.addEventListener("click", () => {
+      
+      // goToPage(USER_POSTS_PAGE, {
+      //   userId: userEl.dataset.userId,
+      // });
+    });
+  }
+
 }

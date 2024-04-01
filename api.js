@@ -113,3 +113,18 @@ export function onAddPostClick({ token, description, imageUrl }) {
     return response.json();
   });
 }
+
+export function onAddLikeClick({ token, id }) {
+  return fetch(postsHost + id + "/like", {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+    // body: JSON.stringify({
+      
+    // }),
+  }).then((response) => {
+    
+    return response.json();
+  });
+}

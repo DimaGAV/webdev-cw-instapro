@@ -71,14 +71,16 @@ export const goToPage = (newPage, data) => {
       // TODO: реализовать получение постов юзера из API
       page = LOADING_PAGE;
       renderApp();
-            console.log("Открываю страницу пользователя: ", data.userId);
-      return getUserPosts({token: getToken(), id: data.userId})
+
+      console.log("Открываю страницу пользователя: ", data.userId);
+
+      return getUserPosts({ token: getToken(), id: data.userId })
       .then((newPosts) => {
-        page = USER_POSTS_PAGE;
-        posts = newPosts;
-        return renderApp();
-      })     
-      
+          page = USER_POSTS_PAGE;
+          posts = newPosts;
+          return renderApp();
+        }
+      );
     }
 
     page = newPage;
@@ -130,7 +132,7 @@ const renderApp = () => {
     // TODO: реализовать страницу фотографию пользвателя
     return renderPostsPageComponent({
       appEl,
-          })
+    });
     // appEl.innerHTML = "Здесь будет страница фотографий пользователя";
     // return;
   }
