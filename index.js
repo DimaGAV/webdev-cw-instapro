@@ -1,5 +1,5 @@
 // index.js
-import { getPosts, getUserPosts, onAddPostClick } from "./api.js";
+import { getPosts, getUserPosts, onAddPostClick, onAddLikeClick } from "./api.js";
 import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
 import {
@@ -125,6 +125,7 @@ const renderApp = () => {
   if (page === POSTS_PAGE) {
     return renderPostsPageComponent({
       appEl,
+      onAddLikeClick,
     });
   }
 
@@ -133,8 +134,6 @@ const renderApp = () => {
     return renderPostsPageComponent({
       appEl,
     });
-    // appEl.innerHTML = "Здесь будет страница фотографий пользователя";
-    // return;
   }
 };
 

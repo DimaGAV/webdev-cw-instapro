@@ -115,7 +115,7 @@ export function onAddPostClick({ token, description, imageUrl }) {
 }
 
 export function onAddLikeClick({ token, id }) {
-  return fetch(postsHost + id + "/like", {
+  return fetch(postsHost + "/" + id + "/like", {
     method: "POST",
     headers: {
       Authorization: token,

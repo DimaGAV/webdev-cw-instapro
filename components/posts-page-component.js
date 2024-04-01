@@ -1,6 +1,7 @@
-import { USER_POSTS_PAGE } from "../routes.js";
+import { POSTS_PAGE, USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
+import { posts, goToPage, getToken } from "../index.js";
+import { onAddLikeClick } from "../api.js";
 
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
@@ -25,7 +26,7 @@ export function renderPostsPageComponent({ appEl }) {
                       <button data-post-id="${post.id}" class="like-button">
                       <img ${
                         post.isLiked
-                      ?`
+                        ?`
                       src="./assets/images/like-active.svg"
                       `
                       :`
@@ -72,9 +73,14 @@ export function renderPostsPageComponent({ appEl }) {
 
   for (let likeButtonEl of document.querySelectorAll(".like-button")) {
     likeButtonEl.addEventListener("click", () => {
-      
-      // goToPage(USER_POSTS_PAGE, {
-      //   userId: userEl.dataset.userId,
+      console.log(likeButtonEl.dataset.postId);
+      onAddLikeClick({
+        token: getToken(),
+        id: likeButtonEl.dataset.postId,
+      })
+      console.log("Актуальный список постов:", posts);
+      // goToPage(POSTS_PAGE, {
+      //   postId: likeButtonEl.dataset.postId,
       // });
     });
   }
