@@ -26,6 +26,10 @@ export const getToken = () => {
   return token;
 };
 
+export function setPosts(newPosts) {
+  posts = newPosts
+}
+
 export const logout = () => {
   user = null;
   removeUserFromLocalStorage();
@@ -92,7 +96,7 @@ export const goToPage = (newPage, data) => {
   throw new Error("страницы не существует");
 };
 
-const renderApp = () => {
+export const renderApp = () => {
   const appEl = document.getElementById("app");
   if (page === LOADING_PAGE) {
     return renderLoadingPageComponent({

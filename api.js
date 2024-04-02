@@ -8,6 +8,7 @@ const userPostsHost = `${postsHost}/user-posts/`
 
 export let token;
 
+
 export const setToken = (newToken) => {
   token = newToken;
 };
@@ -115,7 +116,7 @@ export function onAddPostClick({ token, description, imageUrl }) {
 }
 // api.js
 export function onAddLikeClick({ token, id }) {
-  return fetch(postsHost + "/" + id + "/like", {
+  return fetch(`${postsHost}/${id}/like`, {
     method: "POST",
     headers: {
       Authorization: token,
@@ -126,6 +127,25 @@ export function onAddLikeClick({ token, id }) {
   }).then((response) => {
     if (response.status === 401) {
       throw new Error("Лайкать посты могут только авторизованные пользователи");
+    }
+    return response.json()
+    .then((data) => {
+      return data.posts;
+    });
+  });
+}
+export function onDisLikeClick({ token, id }) {
+  return fetch(`${postsHost}/${id}/dislike`, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+    // body: JSON.stringify({
+      
+    // }),
+  }).then((response) => {
+    if (response.status === 401) {
+      throw new Error("Удалять лайки постов могут только авторизованные пользователи");
     }
     return response.json();
   });
