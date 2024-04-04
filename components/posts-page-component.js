@@ -1,6 +1,13 @@
 import { POSTS_PAGE, USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, page, goToPage, getToken, setPosts, renderApp } from "../index.js";
+import {
+  posts,
+  page,
+  goToPage,
+  getToken,
+  setPosts,
+  renderApp,
+} from "../index.js";
 import { onAddLikeClick, onDisLikeClick, getPosts } from "../api.js";
 
 export function renderPostsPageComponent({ appEl }) {
@@ -27,17 +34,22 @@ export function renderPostsPageComponent({ appEl }) {
                     <div class="post-likes">
                       <button data-post-id="${post.id}" data-is-liked="${
         post.isLiked
-      }" class="like-button">
+      }" data-index="${index}" class="like-button">
                       <img src="${
-                        post.isLiked === true
-                          ? "./assets/images/like-active.svg"
-                          : "./assets/images/like-not-active.svg"
+                        posts[index].isLiked
+                          ? `./assets/images/like-active.svg`
+                          : `./assets/images/like-not-active.svg`
                       }">
                       </button>
                       <p class="post-likes-text">
-                        Нравится: <strong>${post.likes.name}</strong>
-                        
-                      </p>
+              Нравится: <strong>${
+                posts[index].likes.length > 0 ? posts[index].likes[0].name : "0"
+              }</strong> ${
+        posts[index].likes.length - 1 > 0
+          ? "и ещё" + " " + (posts[index].likes.length - 1)
+          : ""
+      }
+              </p >
                     </div>
                     <p class="post-text">
                       <span class="user-name">${post.user.name}</span>
@@ -71,41 +83,43 @@ export function renderPostsPageComponent({ appEl }) {
     });
   }
 
-  for (let likeButtonEl of document.querySelectorAll(".like-button")) {
-    likeButtonEl.addEventListener("click", () => {
-      // console.log(likeButtonEl.dataset.postId);
-      const postId = likeButtonEl.dataset.postId;
-      const isLiked = likeButtonEl.dataset.isLiked === true;
-      const token = getToken();
-      if (isLiked) {
-        onDisLikeClick({ token, id: postId })
-          .then(() => {
-            likeButtonEl.dataset.isLiked = "false";
-            // updatePosts(postId, false);
-          })
-          .catch((error) => {
-            alert(error.message);
-          });
-      } else {
-        onAddLikeClick({
-          token,
-          id: postId,
-        })
-          .then(() => {
-            setPosts(posts);
-            // getPosts({ token }).then((res) => {
-            //   console.log(res);
-              
-            //   renderApp();
-            // });
-          likeButtonEl.dataset.isLiked = "true";
-          })
-          .catch((error) => {
-            alert(error.message);
-          });
-      }
+  const likeButtons = document.querySelectorAll(".like-button");
 
-      renderPostsPageComponent({ appEl });
+  for (const likeButton of likeButtons) {
+    likeButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const postId = likeButton.dataset.postId;
+      const index = likeButton.dataset.index;
+      const isActive = posts[index].isLiked;
+
+      if (isActive) {
+        return onDisLikeClick({ token: getToken(), id: postId }).then((res) => {
+          const updatedPost = res.post; // Получаем обновленный пост из ответа
+          console.log(updatedPost);
+          const updatedPosts = posts.map((post) =>
+            post.id === updatedPost.id ? updatedPost : post
+          ); // Обновляем пост в массиве posts
+          setPosts(updatedPosts);
+          console.log(updatedPosts);
+          renderPostsPageComponent({
+            appEl,
+          });
+        });
+      } else {
+        return onAddLikeClick({ token: getToken(), id: postId }).then((res) => {
+          const updatedPost = res.post;
+          console.log(updatedPost);
+          const updatedPosts = posts.map((post) =>
+            post.id === updatedPost.id ? updatedPost : post
+          );
+          setPosts(updatedPosts);
+          console.log(updatedPosts);
+          renderPostsPageComponent({
+            appEl,
+          });
+        });
+      }
     });
+    
   }
 }

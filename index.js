@@ -1,5 +1,10 @@
 // index.js
-import { getPosts, getUserPosts, onAddPostClick, onAddLikeClick } from "./api.js";
+import {
+  getPosts,
+  getUserPosts,
+  onAddPostClick,
+  onAddLikeClick,
+} from "./api.js";
 import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
 import {
@@ -26,9 +31,9 @@ export const getToken = () => {
   return token;
 };
 
-export function setPosts(newPosts) {
-  posts = newPosts
-}
+export const setPosts = (newPosts) => {
+  posts = newPosts;
+};
 
 export const logout = () => {
   user = null;
@@ -78,8 +83,8 @@ export const goToPage = (newPage, data) => {
 
       console.log("Открываю страницу пользователя: ", data.userId);
 
-      return getUserPosts({ token: getToken(), id: data.userId })
-      .then((newPosts) => {
+      return getUserPosts({ token: getToken(), id: data.userId }).then(
+        (newPosts) => {
           page = USER_POSTS_PAGE;
           posts = newPosts;
           return renderApp();

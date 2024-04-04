@@ -4,10 +4,9 @@
 const personalKey = "aleksandr-gavrikov";
 const baseHost = "https://wedev-api.sky.pro";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
-const userPostsHost = `${postsHost}/user-posts/`
+const userPostsHost = `${postsHost}/user-posts/`;
 
 export let token;
-
 
 export const setToken = (newToken) => {
   token = newToken;
@@ -114,38 +113,32 @@ export function onAddPostClick({ token, description, imageUrl }) {
     return response.json();
   });
 }
-// api.js
+
 export function onAddLikeClick({ token, id }) {
   return fetch(`${postsHost}/${id}/like`, {
     method: "POST",
     headers: {
       Authorization: token,
     },
-    // body: JSON.stringify({
-      
-    // }),
   }).then((response) => {
     if (response.status === 401) {
       throw new Error("Лайкать посты могут только авторизованные пользователи");
     }
-    return response.json()
-    .then((data) => {
-      return data.posts;
-    });
+    return response.json();
   });
 }
+
 export function onDisLikeClick({ token, id }) {
   return fetch(`${postsHost}/${id}/dislike`, {
     method: "POST",
     headers: {
       Authorization: token,
     },
-    // body: JSON.stringify({
-      
-    // }),
   }).then((response) => {
     if (response.status === 401) {
-      throw new Error("Удалять лайки постов могут только авторизованные пользователи");
+      throw new Error(
+        "Удалять лайки постов могут только авторизованные пользователи"
+      );
     }
     return response.json();
   });
