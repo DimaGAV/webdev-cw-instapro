@@ -1,7 +1,7 @@
 //add-post-page-component.js
 import { renderHeaderComponent } from "./header-component.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
-import { goToPage } from "../index.js";
+import { getToken, goToPage } from "../index.js";
 import { POSTS_PAGE } from "../routes.js";
 
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
@@ -58,7 +58,7 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
       onAddPostClick({
         description: description,
         imageUrl,
-          
+        token: getToken(),
       })
         .then((data) => {
           console.log("Пост успешно добавлен:", data);
