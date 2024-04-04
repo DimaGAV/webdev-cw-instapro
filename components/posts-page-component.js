@@ -96,11 +96,11 @@ export function renderPostsPageComponent({ appEl }) {
         return onDisLikeClick({ token: getToken(), id: postId }).then((res) => {
           const updatedPost = res.post; // Получаем обновленный пост из ответа
           console.log(updatedPost);
-          const updatedPosts = posts.map((post) =>
+          const newPosts = posts.map((post) =>
             post.id === updatedPost.id ? updatedPost : post
           ); // Обновляем пост в массиве posts
-          setPosts(updatedPosts);
-          console.log(updatedPosts);
+          setPosts(newPosts);
+          console.log(newPosts);
           renderPostsPageComponent({
             appEl,
           });
@@ -109,11 +109,11 @@ export function renderPostsPageComponent({ appEl }) {
         return onAddLikeClick({ token: getToken(), id: postId }).then((res) => {
           const updatedPost = res.post;
           console.log(updatedPost);
-          const updatedPosts = posts.map((post) =>
+          const newPosts = posts.map((post) =>
             post.id === updatedPost.id ? updatedPost : post
           );
-          setPosts(updatedPosts);
-          console.log(updatedPosts);
+          setPosts(newPosts);
+          console.log(newPosts);
           renderPostsPageComponent({
             appEl,
           });
