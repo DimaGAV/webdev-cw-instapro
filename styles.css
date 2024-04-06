@@ -1,6 +1,5 @@
 .page-container {
-  /* margin-top: 100px; */
-  padding: 0 20px;
+  margin-top: 80px;
 }
 
 .page-header {
@@ -8,9 +7,8 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #e0e0e0;
-  padding: 20px 16px;
-  margin-left: -20px;
-  margin-right: -20px;
+  height: 70px;
+  background-color: white;
 }
 
 .logo {
@@ -18,13 +16,12 @@
   font-size: 28px;
   cursor: pointer;
   width: 130px;
+  padding-left: 20px;
 }
 
 .header-container {
-  /* margin-bottom: 8px; */
-  /* background-color: #594ef1; */
-  /* position: fixed; */
-  /* top: 0; */
+  position: fixed;
+  top: 0;
   width: 100%;
 }
 
@@ -36,6 +33,7 @@
   line-height: 18px;
   font-weight: 500;
   cursor: pointer;
+  padding-right: 20px;
 }
 
 .logout-button {
@@ -47,7 +45,7 @@
   display: flex;
   flex-direction: column;
   list-style: none;
-  padding: 0;
+  padding: 0 20px;
   margin: 0;
 }
 
@@ -112,7 +110,7 @@
   color: #8a8a8a;
 }
 
-.post + .post {
+.post+.post {
   margin-top: 20px;
 }
 

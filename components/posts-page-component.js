@@ -1,14 +1,8 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import {
-  posts,
-  user,
-  goToPage,
-  getToken,
-  setPosts,
-} from "../index.js";
+import { posts, user, goToPage, getToken, setPosts } from "../index.js";
 import { onAddLikeClick, onDisLikeClick } from "../api.js";
-import { sanitizeHtml } from "../helpers.js"
+import { sanitizeHtml } from "../helpers.js";
 
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
@@ -22,20 +16,24 @@ export function renderPostsPageComponent({ appEl }) {
     .map((post, index) => {
       if (getToken()) {
         const isLiked = isLikedPost(post);
-        
+
         return `
         <li data-index="${index}" class="post">
                         <div class="post-header" data-user-id="${post.user.id}">
                             <img src="${
                               post.user.imageUrl
                             }" class="post-header__user-image">
-                            <p class="post-header__user-name">${post.user.name}</p>
+                            <p class="post-header__user-name">${
+                              post.user.name
+                            }</p>
                         </div>
                         <div class="post-image-container">
                           <img class="post-image" src="${post.imageUrl}">
                         </div>
                         <div class="post-likes">
-                          <button data-post-id="${post.id}" data-is-liked="${isLiked}" data-index="${index}" class="like-button">
+                          <button data-post-id="${
+                            post.id
+                          }" data-is-liked="${isLiked}" data-index="${index}" class="like-button">
                           <img src="${
                             isLiked
                               ? `./assets/images/like-active.svg`
@@ -44,12 +42,14 @@ export function renderPostsPageComponent({ appEl }) {
                           </button>
                           <p class="post-likes-text">
                   Нравится: <strong>${
-                    posts[index].likes.length > 0 ? posts[index].likes[posts[index].likes.length - 1].name : "0"
+                    posts[index].likes.length > 0
+                      ? posts[index].likes[posts[index].likes.length - 1].name
+                      : "0"
                   }</strong> ${
-            posts[index].likes.length - 1 > 0
-              ? "и ещё" + " " + (posts[index].likes.length - 1)
-              : ""
-          }
+          posts[index].likes.length - 1 > 0
+            ? "и ещё" + " " + (posts[index].likes.length - 1)
+            : ""
+        }
                   </p >
                         </div>
                         <p class="post-text">
@@ -131,7 +131,7 @@ export function renderPostsPageComponent({ appEl }) {
       event.stopPropagation();
       const postId = likeButton.dataset.postId;
       const index = likeButton.dataset.index;
-      
+
       if (getToken()) {
         const isLiked = isLikedPost(posts[index]);
 
@@ -139,26 +139,14 @@ export function renderPostsPageComponent({ appEl }) {
           return onDisLikeClick({ token: getToken(), id: postId }).then(
             (res) => {
               const updatedPost = res.post; // Получаем обновленный пост из ответа
-              const newPosts = posts.map((post) =>
-                post.id === updatedPost.id ? updatedPost : post
-              ); // Обновляем пост в массиве posts
-              setPosts(newPosts);
-              renderPostsPageComponent({
-                appEl,
-              });
+              updatedPostAndRender(updatedPost, appEl);
             }
           );
         } else {
           return onAddLikeClick({ token: getToken(), id: postId }).then(
             (res) => {
               const updatedPost = res.post;
-              const newPosts = posts.map((post) =>
-                post.id === updatedPost.id ? updatedPost : post
-              );
-              setPosts(newPosts);
-              renderPostsPageComponent({
-                appEl,
-              });
+              updatedPostAndRender(updatedPost, appEl);
             }
           );
         }
@@ -170,5 +158,15 @@ export function renderPostsPageComponent({ appEl }) {
 function isLikedPost(post) {
   return post.likes.find((like) => {
     return like.id === user._id;
+  });
+}
+
+function updatedPostAndRender(updatedPost, appEl) {
+  const newPosts = posts.map((post) =>
+    post.id === updatedPost.id ? updatedPost : post
+  );
+  setPosts(newPosts);
+  renderPostsPageComponent({
+    appEl,
   });
 }
