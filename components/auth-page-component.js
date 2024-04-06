@@ -1,6 +1,7 @@
 import { loginUser, registerUser } from "../api.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
+import { sanitizeHtml } from "../helpers.js";
 
 export function renderAuthPageComponent({ appEl, setUser }) {
   let isLoginMode = true;
@@ -82,12 +83,12 @@ export function renderAuthPageComponent({ appEl, setUser }) {
         const login = document.getElementById("login-input").value;
         const password = document.getElementById("password-input").value;
 
-        if (!login) {
+        if (!login || login.trim().length === 0) {
           alert("Введите логин");
           return;
         }
 
-        if (!password) {
+        if (!password || password.trim().length === 0) {
           alert("Введите пароль");
           return;
         }
@@ -127,9 +128,9 @@ export function renderAuthPageComponent({ appEl, setUser }) {
         }
 
         registerUser({
-          login: login,
-          password: password,
-          name: name,
+          login: sanitizeHtml(login),
+          password: sanitizeHtml(password),
+          name: sanitizeHtml(name),
           imageUrl,
         })
           .then((user) => {

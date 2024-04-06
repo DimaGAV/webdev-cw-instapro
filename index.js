@@ -3,7 +3,6 @@ import {
   getPosts,
   getUserPosts,
   onAddPostClick,
-  onAddLikeClick,
 } from "./api.js";
 import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
@@ -134,7 +133,6 @@ export const renderApp = () => {
   if (page === POSTS_PAGE) {
     return renderPostsPageComponent({
       appEl,
-      onAddLikeClick,
     });
   }
 
