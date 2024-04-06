@@ -107,16 +107,16 @@ export function renderAuthPageComponent({ appEl, setUser }) {
         const login = document.getElementById("login-input").value;
         const name = document.getElementById("name-input").value;
         const password = document.getElementById("password-input").value;
-        if (!name) {
+        if (!name || name.trim().length === 0) {
           alert("Введите имя");
           return;
         }
-        if (!login) {
+        if (!login || login.trim().length === 0) {
           alert("Введите логин");
           return;
         }
 
-        if (!password) {
+        if (!password || password.trim().length === 0) {
           alert("Введите пароль");
           return;
         }

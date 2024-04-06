@@ -20,12 +20,13 @@ export function renderPostsPageComponent({ appEl }) {
    */
   const postsHtml = posts
     .map((post, index) => {
-      // const isLiked = post.likes.find((like) => {
-      //   return like.id === user._id
-      // })
-      const isLiked = isLikedPost(post)
-      // debugger
-      return `
+      if (getToken()) {
+        const isLiked = isLikedPost(post);
+        const likeButtonSrc = isLiked
+          ? `./assets/images/like-active.svg`
+          : `./assets/images/like-not-active.svg`;
+        // debugger
+        return `
     <li data-index="${index}" class="post">
                     <div class="post-header" data-user-id="${post.user.id}">
                         <img src="${
@@ -38,22 +39,22 @@ export function renderPostsPageComponent({ appEl }) {
                     </div>
                     <div class="post-likes">
                       <button data-post-id="${post.id}" data-is-liked="${
-        post.isLiked
-      }" data-index="${index}" class="like-button">
-                      <img src="${
-                        isLiked
-                          ? `./assets/images/like-active.svg`
-                          : `./assets/images/like-not-active.svg`
-                      }">
+          post.isLiked
+        }" data-index="${index}" class="like-button">
+                      <img src="${isLiked}
+                        ? `./assets/images/like-active.svg`
+                        : `./assets/images/like-not-active.svg`
                       </button>
                       <p class="post-likes-text">
               Нравится: <strong>${
-                posts[index].likes.length > 0 ? posts[index].likes[posts[index].likes.length - 1].name : "0"
+                posts[index].likes.length > 0
+                  ? posts[index].likes[posts[index].likes.length - 1].name
+                  : "0"
               }</strong> ${
-        posts[index].likes.length - 1 > 0
-          ? "и ещё" + " " + (posts[index].likes.length - 1)
-          : ""
-      }
+          posts[index].likes.length - 1 > 0
+            ? "и ещё" + " " + (posts[index].likes.length - 1)
+            : ""
+        }
               </p >
                     </div>
                     <p class="post-text">
@@ -65,6 +66,46 @@ export function renderPostsPageComponent({ appEl }) {
                     </p>
                   </li>
     `;
+      } else {
+        return `
+      <li data-index="${index}" class="post">
+                      <div class="post-header" data-user-id="${post.user.id}">
+                          <img src="${
+                            post.user.imageUrl
+                          }" class="post-header__user-image">
+                          <p class="post-header__user-name">${
+                            post.user.name
+                          }</p>
+                      </div>
+                      <div class="post-image-container">
+                        <img class="post-image" src="${post.imageUrl}">
+                      </div>
+                      <div class="post-likes">
+                        <button data-post-id="${post.id}" data-is-liked="${
+          post.isLiked
+        }" data-index="${index}" class="like-button"></button>
+                        <p class="post-likes-text">
+                Нравится: <strong>${
+                  posts[index].likes.length > 0
+                    ? posts[index].likes[posts[index].likes.length - 1].name
+                    : "0"
+                }</strong> ${
+          posts[index].likes.length - 1 > 0
+            ? "и ещё" + " " + (posts[index].likes.length - 1)
+            : ""
+        }
+                </p >
+                      </div>
+                      <p class="post-text">
+                        <span class="user-name">${post.user.name}</span>
+                        ${post.description}
+                      </p>
+                      <p class="post-date">
+                        ${post.createdAt}
+                      </p>
+                    </li>
+      `;
+      }
     })
     .join("");
 
@@ -99,44 +140,49 @@ export function renderPostsPageComponent({ appEl }) {
       // const isLiked = posts[index].likes.find((like) => {
       //   return like.id === user._id
       // })
-      const isLiked = isLikedPost(posts[index])
+      if (getToken()) {
+        const isLiked = isLikedPost(posts[index]);
 
-      if (isLiked) {
-        return onDisLikeClick({ token: getToken(), id: postId }).then((res) => {
-          const updatedPost = res.post; // Получаем обновленный пост из ответа
-          // console.log(updatedPost);
-          const newPosts = posts.map((post) =>
-            post.id === updatedPost.id ? updatedPost : post
-          ); // Обновляем пост в массиве posts
-          setPosts(newPosts);
-          
-          // console.log(newPosts);
-          renderPostsPageComponent({
-            appEl,
-          });
-        });
-      } else {
-        return onAddLikeClick({ token: getToken(), id: postId }).then((res) => {
-          const updatedPost = res.post;
-          console.log(updatedPost);
-          const newPosts = posts.map((post) =>
-            post.id === updatedPost.id ? updatedPost : post
+        if (isLiked) {
+          return onDisLikeClick({ token: getToken(), id: postId }).then(
+            (res) => {
+              const updatedPost = res.post; // Получаем обновленный пост из ответа
+              // console.log(updatedPost);
+              const newPosts = posts.map((post) =>
+                post.id === updatedPost.id ? updatedPost : post
+              ); // Обновляем пост в массиве posts
+              setPosts(newPosts);
+
+              // console.log(newPosts);
+              renderPostsPageComponent({
+                appEl,
+              });
+            }
           );
-          setPosts(newPosts);
-          console.log(newPosts);
-          // debugger
-          renderPostsPageComponent({
-            appEl,
-          });
-        });
+        } else {
+          return onAddLikeClick({ token: getToken(), id: postId }).then(
+            (res) => {
+              const updatedPost = res.post;
+              console.log(updatedPost);
+              const newPosts = posts.map((post) =>
+                post.id === updatedPost.id ? updatedPost : post
+              );
+              setPosts(newPosts);
+              console.log(newPosts);
+              // debugger
+              renderPostsPageComponent({
+                appEl,
+              });
+            }
+          );
+        }
       }
     });
-    
   }
 }
 
 function isLikedPost(post) {
   return post.likes.find((like) => {
-    return like.id === user._id
-  })
-} 
+    return like.id === user._id;
+  });
+}
