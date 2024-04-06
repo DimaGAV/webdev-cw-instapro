@@ -4,7 +4,7 @@ import { posts, user, goToPage, getToken, setPosts } from "../index.js";
 import { onAddLikeClick, onDisLikeClick } from "../api.js";
 import { sanitizeHtml } from "../helpers.js";
 import { formatDistanceToNow } from "date-fns";
-import { ru } from 'date-fns/locale'
+import { ru } from "date-fns/locale";
 
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
@@ -18,7 +18,9 @@ export function renderPostsPageComponent({ appEl }) {
     .map((post, index) => {
       if (getToken()) {
         const isLiked = isLikedPost(post);
-const createDate = formatDistanceToNow(new Date(post.createdAt), {locale: ru})
+        const createDate = formatDistanceToNow(new Date(post.createdAt), {
+          locale: ru,
+        });
         return `
         <li data-index="${index}" class="post">
                         <div class="post-header" data-user-id="${post.user.id}">
