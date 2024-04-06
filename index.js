@@ -80,7 +80,7 @@ export const goToPage = (newPage, data) => {
       page = LOADING_PAGE;
       renderApp();
 
-      console.log("Открываю страницу пользователя: ", data.userId);
+      // console.log("Открываю страницу пользователя: ", data.userId);
 
       return getUserPosts({ token: getToken(), id: data.userId }).then(
         (newPosts) => {
