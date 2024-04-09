@@ -16,11 +16,11 @@ export function renderPostsPageComponent({ appEl }) {
    */
   const postsHtml = posts
     .map((post, index) => {
+      const createDate = formatDistanceToNow(new Date(post.createdAt), {
+        locale: ru,
+      });
       if (getToken()) {
         const isLiked = isLikedPost(post);
-        const createDate = formatDistanceToNow(new Date(post.createdAt), {
-          locale: ru,
-        });
         return `
         <li data-index="${index}" class="post">
                         <div class="post-header" data-user-id="${post.user.id}">
@@ -100,7 +100,7 @@ export function renderPostsPageComponent({ appEl }) {
                         ${sanitizeHtml(post.description)}
                       </p>
                       <p class="post-date">
-                        ${post.createdAt}
+                        ${createDate} назад
                       </p>
                     </li>
       `;
