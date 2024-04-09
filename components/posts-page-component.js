@@ -161,7 +161,7 @@ export function renderPostsPageComponent({ appEl }) {
 
 function isLikedPost(post) {
   return post.likes.find((like) => {
-    return like.id === user._id;
+    return like.id === user._id || like._id === user._id;
   });
 }
 
