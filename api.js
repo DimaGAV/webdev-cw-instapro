@@ -122,7 +122,7 @@ export function onAddLikeClick({ token, id }) {
     },
   }).then((response) => {
     if (response.status === 401) {
-      throw new Error("Лайкать посты могут только авторизованные пользователи");
+      alert("Лайкать посты могут только авторизованные пользователи");
     }
     return response.json();
   });

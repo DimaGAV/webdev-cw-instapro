@@ -8,7 +8,7 @@ import { ru } from "date-fns/locale";
 
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
-  console.log("Актуальный список постов:", posts);
+  // console.log("Актуальный список постов:", posts);
 
   /**
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
@@ -137,6 +137,8 @@ export function renderPostsPageComponent({ appEl }) {
       event.stopPropagation();
       const postId = likeButton.dataset.postId;
       const index = likeButton.dataset.index;
+
+      onAddLikeClick({ token: getToken(), id: postId })
 
       if (getToken()) {
         const isLiked = isLikedPost(posts[index]);
